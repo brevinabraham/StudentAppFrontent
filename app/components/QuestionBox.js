@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Animated, Image, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../config/colors';
-import { removeQuestion } from '../config/apiServiceFeeds';
+import { getSingleQuestion, removeQuestion, addLike } from '../config/apiServiceFeeds';
 import { AnswersSection } from './AnswersSection';
 
 
@@ -20,11 +20,20 @@ function formatDate(isoDate) {
     return formattedDate;
 }
 
-export function QuestionBox ({ question, user_id,  img, onClose, editQuestion, isOpen, setIsOpen, onConversationPress, expanded  }) {
+export function QuestionBox ({ question_passed, user_id,  img, onClose, editQuestion, isOpen, setIsOpen, onConversationPress, expanded  }) {
     const translateX = useRef(new Animated.Value(0)).current;
     const [isMoved, setIsMoved] = useState(false);
     const translate_U = useRef(new Animated.Value(0)).current;
     const translate_U_opacity = useRef(new Animated.Value(0)).current
+    const [question, setQuestion] = useState(question_passed)
+
+
+    const updateQuestionBox = async () => {
+        console.log("Hi")
+        const response = await getSingleQuestion(question.id)
+        setQuestion({...response, "id": response["_id"]})
+
+    }
 
     useEffect(() => {
         if (!isOpen) {
@@ -46,15 +55,21 @@ export function QuestionBox ({ question, user_id,  img, onClose, editQuestion, i
                 })
             ]).start(() => setIsMoved(false));
         }
-    }, [isOpen]);
+        updateQuestionBox(question.id)
+    }, []);
 
     const editBtnPress = async () => {
-        await editQuestion(question)
+        await editQuestion(question, updateQuestionBox)
     }
     
     const rmBtnPress = async () => {
         await removeQuestion(question.id)
         onClose()
+    }
+
+    const updateLike = async () => {
+        await addLike(user_id,question.id )
+        updateQuestionBox()
     }
 
     const handlePress = () => {
@@ -79,7 +94,7 @@ export function QuestionBox ({ question, user_id,  img, onClose, editQuestion, i
     };
 
     return (
-        <View style={{ margin: 10, flex: 1 }}>
+        <View style={{ margin: 10, flex: 1}}>
             <View>
                 <TouchableOpacity onPress={handlePress}>
                     <Animated.View style={{ 
@@ -88,6 +103,7 @@ export function QuestionBox ({ question, user_id,  img, onClose, editQuestion, i
                         padding: 10, 
                         transform: [{ translateX }],
                         display: 'flex' 
+                        ,shadowColor: colors.primaryblue, shadowRadius: '2px', shadowRadius: 20
                     }}>
                         <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'flex-start', width: '100%', paddingBottom: 5 }}>
                             <ImageBackground
@@ -102,14 +118,15 @@ export function QuestionBox ({ question, user_id,  img, onClose, editQuestion, i
                                     {question.user_id}
                                 </Text>
                             </View>
-                            <View style={{ alignItems: 'flex-end', flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={updateLike}
+                                style={{ alignItems: 'flex-end', flexDirection: 'row' }}>
                                 <Image source={require('../assets/like.png')}
                                     style={{ height: 15, width: 15, alignContent: "center", justifyContent: 'center', marginRight: 3 }}>
                                 </Image>
                                 <Text style={{ fontWeight: 'bold', fontSize: 10, flex: 1, alignContent: "center", justifyContent: 'center' }}>
-                                    {question.comments_count}
+                                    {question.like_count}
                                 </Text>
-                            </View>
+                            </TouchableOpacity>
                         </View>
 
                         <Text style={{ flex: 1, paddingVertical: 10 }}>
@@ -134,7 +151,7 @@ export function QuestionBox ({ question, user_id,  img, onClose, editQuestion, i
                     position:'absolute',
                     zIndex:-1,
                     transform: [{ translateX: translate_U}],
-                    right: 15, // Adjust this value to position the icons correctly when hidden
+                    right: 15, 
                     flexDirection: 'column',
                     height:'99%',
                     width: '5%',
@@ -148,7 +165,7 @@ export function QuestionBox ({ question, user_id,  img, onClose, editQuestion, i
                     </TouchableOpacity>
                 </Animated.View>
             </View>
-            <AnswersSection style={{flex: 1}} question_id={question.id} user_id={user_id} onPress={onConversationPress} expansion={expanded}/>
+            <AnswersSection style={{flex: 1}} question_id={question.id} user_id={user_id} onPress={onConversationPress} expansion={expanded} onClose={onClose} updateQuestionBox={updateQuestionBox}/>
         </View>
     );
 }

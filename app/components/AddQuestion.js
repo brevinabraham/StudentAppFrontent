@@ -7,7 +7,7 @@ import colors from '../config/colors';
 import { retrieveQuestionTemplate, postQuestion, editQuestion } from '../config/apiServiceFeeds';
 import { useNavigation } from '@react-navigation/native';
 
-export function AddQuestions({ dashboardBottomDims, user_id, onClose, Edit }) {
+export function AddQuestions({ dashboardBottomDims, user_id, onClose, Edit,  editOnClose}) {
     const initialPickerItems = {
         status_id: { items: ['test', 'test2'], selected: [] },
         tags_id: { items: [], selected: [] },
@@ -44,6 +44,7 @@ export function AddQuestions({ dashboardBottomDims, user_id, onClose, Edit }) {
             await editQuestion(Edit.id, question);
         } else {
             await postQuestion(question);
+            
         }
         onClose();
     };
@@ -127,7 +128,7 @@ export function AddQuestions({ dashboardBottomDims, user_id, onClose, Edit }) {
     return (
         <BlurView intensity={75}
             style={{height: '95%',width: '100%',position: 'absolute',top: 0,left: 0,display: 'flex',alignItems: 'center',justifyContent: 'center',zIndex: 1}}>
-            <View style={{ flex: 1 }}>
+            <View >
                 <Text style={{fontSize: 25,fontWeight: 'bold',alignItems: 'center',paddingTop: '25%'}}>
                     {JSON.stringify(Edit) === '{}' ? "Add your question below!" : "Edit your Question"}
                 </Text>

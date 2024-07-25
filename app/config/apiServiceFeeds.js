@@ -45,3 +45,21 @@ export const editQuestion = async (id, question) => {
         throw err;
     }
 };
+
+export const getSingleQuestion = async (id) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/api/feeds/getQuestion?id=${id}`)
+        return response.data
+    } catch (err) {
+        throw err
+    }
+}
+
+
+export const addLike = async (userid, questionid) => {
+    try {
+        await axios.put(`${BASE_URL}/api/feeds/question/like?userid=${userid}&questionid=${questionid}`)
+    } catch (err) {
+        throw err
+    }
+}

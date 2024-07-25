@@ -22,14 +22,15 @@ function Dashboard({ navigation }) {
     const [conversationMode, setConversationMode] = useState(false);
     const [selectedQConversation, setSelectedQConversation] = useState({})
     const {height, width} = Dimensions.get('window')
+    const [editOnClose, setEditOnClose] = useState(()=>()=>{})
 
     const getAllQuestions = async () => {
         try {
             const response = await userFeedQuestions()
             setAllUserFeedQuestions(response.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)))
-            for (let item in response) {
-                await getImgs(response[item]['id'])
-            }
+            // for (let item in response) {
+            //     await getImgs(response[item]['id'])
+            // }
         } catch (err) {
             throw err
         }
@@ -62,7 +63,7 @@ function Dashboard({ navigation }) {
     useEffect(() => {
         getUserDetails();
         getAllQuestions();
-        getImgs()
+        // getImgs()
     }, []);
     const onViewableItemsChanged = useCallback(({ viewableItems }) => {
         //console.log(viewableItems);
@@ -75,10 +76,12 @@ function Dashboard({ navigation }) {
         }))
     }
 
-    const addQuestionComponent = (editquestion) => {
+    const addQuestionComponent = (editquestion, editfunction) => {
         if (editquestion) {
             setEditQ(editquestion)
+            setEditOnClose(() => editfunction)
         }
+        
         setShowAddQuestion(!showAddQuestion)
         setDashboardBottomBannerDims(height -
             dashboardBottomBannerRef.current.offsetHeight)
@@ -86,10 +89,11 @@ function Dashboard({ navigation }) {
 
     const handleAddQuestionClose = () => {
         setShowAddQuestion(false);
+        editOnClose()
         setEditQ({})
         getAllQuestions();
     }
-
+ 
     const handleConversationPress = (item) => {
         setConversationMode(true);
         setSelectedQConversation(item)
@@ -126,7 +130,7 @@ function Dashboard({ navigation }) {
                         <View style={{ width: '100%', paddingHorizontal: '1%', alignSelf: 'center' }}
                             onPointerEnter={() => { getImgs(item['id']); }}>
                             <QuestionBox 
-                                question={item} 
+                                question_passed={item} 
                                 img={getPic[item['id']]} 
                                 onClose={getAllQuestions} 
                                 editQuestion={addQuestionComponent}
@@ -142,7 +146,7 @@ function Dashboard({ navigation }) {
                 {conversationMode &&
                     <View style={{ width: '100%', height: '95%', paddingHorizontal: '1%', alignSelf: 'center' }}>
                         <QuestionBox 
-                            question={selectedQConversation} 
+                            question_passed={selectedQConversation} 
                             img={getPic[selectedQConversation['id']]} 
                             onClose={getAllQuestions} 
                             editQuestion={addQuestionComponent}

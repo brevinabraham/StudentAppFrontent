@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../config/colors';
 import { addAnswer } from '../config/apiAnswers';
 
-export function InputBarAnswer({question_id, user_id, updateAnswerSection}) {
+export function InputBarAnswer({question_id, user_id, updateAnswerSection, updateQuestionBox}) {
     const [inputHeight, setInputHeight] = useState(50);
     const [answerValue, setAnswerValue] = useState('')
 
+
     const updateAnswer = async () => {
+        console.log("Hi")
         await addAnswer({question_id,user_id,"content": answerValue})
         setAnswerValue('')
         updateAnswerSection()
+        updateQuestionBox(question_id)
     }
+    useEffect(()=>{
+
+    },[question_id])
 
     return (
         <View style={{

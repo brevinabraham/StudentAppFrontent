@@ -5,7 +5,7 @@ import { AnswerBox } from './AnswerBox';
 import { InputBarAnswer } from './InputBarAnswer';
 import { getAnswersID } from '../config/apiAnswers';
 
-export function AnswersSection({ question_id, user_id, onPress, expansion }) {
+export function AnswersSection({ question_id, user_id, onPress, expansion, updateQuestionBox, onClose }) {
     const [answers, setAnswers] = useState([])
 
     const allAnswersID =  async () => {
@@ -27,8 +27,8 @@ export function AnswersSection({ question_id, user_id, onPress, expansion }) {
         )
     }
     return (
-        <TouchableOpacity style={{flex:1, marginVertical:'0.5%'}} >
-            <InputBarAnswer style={{zIndex: 1}} question_id={question_id} user_id={user_id} updateAnswerSection={allAnswersID}/>
+        <View style={{flex:1, marginVertical:'0.5%'}} >
+            <InputBarAnswer style={{zIndex: 1}} question_id={question_id} user_id={user_id} updateAnswerSection={allAnswersID} updateQuestionBox={updateQuestionBox}/>
             <TouchableOpacity style={{ alignSelf: 'center', justifyContent: 'flex-start', top: '10%', width: '100%', height: '87%', backgroundColor: colors.logingreen, borderRadius: 20, display: 'flex', padding: 8, overflow: 'scroll', paddingBottom: '2%',  }} onPress={onPress}>
                 <FlatList
                     data={answers}
@@ -39,6 +39,6 @@ export function AnswersSection({ question_id, user_id, onPress, expansion }) {
                 />   
             </TouchableOpacity>
             
-        </TouchableOpacity>
+        </View>
     );
 }
