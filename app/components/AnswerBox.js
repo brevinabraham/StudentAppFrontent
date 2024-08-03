@@ -21,7 +21,7 @@ export function AnswerBox({user, userimg, content, created_at, like_count}) {
         <View style={{ gap: '10px', backgroundColor: colors.primarylightpurple, width: '100%', borderRadius: 20, marginVertical: '1%', padding: '2%' }}>
             <View style={{flex: 1}}>
                 <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'flex-start', width: '100%', paddingBottom: 5 }}>
-                    <ImageBackground
+                    <Image
                         style={{ flex: 1, padding: 20, borderRadius: 100, overflow: 'hidden', flexShrink: 1 }}
                         source={userimg}
                     />

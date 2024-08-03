@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BASE_URL = 'http://192.168.0.14:8000';
+const BASE_URL = 'http://127.0.0.1:8000';
 
 const login = async (email, password) => {
     try {

@@ -1,29 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { TextInput, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../config/colors';
-import { addAnswer } from '../config/apiAnswers';
-
-export function InputBarAnswer({question_id, user_id, updateAnswerSection, updateQuestionBox}) {
-    const [inputHeight, setInputHeight] = useState(50);
-    const [answerValue, setAnswerValue] = useState('')
 
 
-    const updateAnswer = async () => {
-        await addAnswer({question_id,user_id,"content": answerValue})
-        setAnswerValue('')
-        updateAnswerSection()
-        updateQuestionBox(question_id)
-    }
-    useEffect(()=>{
 
-    },[question_id])
+export default function InputBarChat() {
+
 
     return (
         <View style={{
             backgroundColor: colors.white,
-            width: '100%',
+            width: '97%',
+            bottom: '2%',
             marginVertical: '2%',
+            marginHorizontal: '1%',
+            paddingHorizontal: '1%',
             borderRadius: 20,
             padding: 5,
             position: 'absolute',
@@ -34,7 +26,7 @@ export function InputBarAnswer({question_id, user_id, updateAnswerSection, updat
             <TextInput
                 style={{
                     flex: 1,
-                    height: inputHeight,
+                    height: '30px',
                     borderColor: colors.lightgray,
                     borderWidth: 1,
                     borderRadius: 10,
@@ -43,13 +35,10 @@ export function InputBarAnswer({question_id, user_id, updateAnswerSection, updat
                 }}
                 multiline={true}
                 placeholder="Type here..."
-                onContentSizeChange={(event) => {
-                    setInputHeight(event.nativeEvent.contentSize.height);
-                }}
-                value={answerValue}
-                onChangeText={(item)=>setAnswerValue(item)}
+                value={''}
+                onChangeText={null}
             />
-            <TouchableOpacity onPress={() => updateAnswer()}>
+            <TouchableOpacity onPress={null}>
                 <Icon name="send" size={18} color={colors.primary} style={{ marginHorizontal: 5 }} />
             </TouchableOpacity>
         </View>

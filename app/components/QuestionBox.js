@@ -29,7 +29,6 @@ export function QuestionBox ({ question_passed, user_id,  img, onClose, editQues
 
 
     const updateQuestionBox = async () => {
-        console.log("Hi")
         const response = await getSingleQuestion(question.id)
         setQuestion({...response, "id": response["_id"]})
 
@@ -123,7 +122,7 @@ export function QuestionBox ({ question_passed, user_id,  img, onClose, editQues
                                 <Image source={require('../assets/like.png')}
                                     style={{ height: 15, width: 15, alignContent: "center", justifyContent: 'center', marginRight: 3 }}>
                                 </Image>
-                                <Text style={{ fontWeight: 'bold', fontSize: 10, flex: 1, alignContent: "center", justifyContent: 'center' }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 10, flex: 1, alignContent: "center", justifyContent: 'center', paddingHorizontal: '1.5%' }}>
                                     {question.like_count}
                                 </Text>
                             </TouchableOpacity>
@@ -140,7 +139,7 @@ export function QuestionBox ({ question_passed, user_id,  img, onClose, editQues
                                 <Image source={require('../assets/conversation.png')}
                                     style={{ height: 15, width: 15, alignContent: "center", justifyContent: 'center', marginRight: 3 }}>
                                 </Image>
-                                <Text style={{ fontWeight: 'bold', fontSize: 10, flex: 1, alignContent: "center", justifyContent: 'center' }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 10, flex: 1, alignContent: "center", justifyContent: 'center', paddingHorizontal: '1.5%' }}>
                                     {question.comments_count}
                                 </Text>
                             </View>

@@ -23,6 +23,11 @@ export default function App() {
             component = {screens.Dashboard}
             options={{headerShown: false}}
             />
+            <Stack.Screen
+            name = 'GlobalChat'
+            component = {screens.GlobalChat}
+            options={{headerShown: false}}
+            />
           </Stack.Navigator>
       </NavigationContainer>
   );

@@ -101,7 +101,7 @@ function Dashboard({ navigation }) {
 
     return (
         <SafeAreaView id="dashboard-view"
-            style={[{ backgroundColor: colors.black, display: 'flex', flex: 1, paddingHorizontal: '1%', width: '100%' }]}>
+            style={[{ backgroundColor: colors.black, display: 'flex', flex: 1, width: '100%' }]}>
             
             <View id="dashboard-top-banner"
                 style={{ flexDirection: 'row', flex: 0.5, paddingVertical: 5, paddingHorizontal: '5%', justifyContent: 'space-between' }}>
@@ -162,10 +162,10 @@ function Dashboard({ navigation }) {
             {showAddQuestion && <AddQuestions dashboardBottomDims={dashboardBottomBannerDims} user_id={userfname} onClose={handleAddQuestionClose} Edit={editQ}/>}
 
             <View id="dashboard-bottom-banner" style={{ flex: 0.5, flexDirection: 'row', alignContent: 'space-between', justifyContent: 'center'}} ref={dashboardBottomBannerRef}>
-                <TouchableOpacity onPress={() => {}}  style={{alignItems: 'center', justifyContent: 'center',backgroundColor: 'red', flex:1, borderRadius: 20 }}>   
+                <TouchableOpacity onPress={() => {navigation.navigate('GlobalChat')}}  style={{alignItems: 'center', justifyContent: 'center',backgroundColor: 'yellow', flex:1, borderRadius: 20 }}>   
                     <View  >
                         <Text style={{fontWeight: 'bold'}}>
-                            Dasboard
+                            Global Chat
                         </Text>
                     </View>
                 </TouchableOpacity>

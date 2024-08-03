@@ -32,9 +32,10 @@ export function LoginBox () {
     const hanndlelogin = async () => {
         const success = await login(loginform.email, loginform.password)
         if (success) {
-            console.log("Logging")
-            navigation.navigate(Dashboard)
-            console.log("moved")
+            navigation.reset({
+                index: 0,
+                routes: [{name: 'Dashboard'}]
+            })
         } else {
             console.log("unfortunate")
         }
